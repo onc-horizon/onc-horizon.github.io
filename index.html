@@ -81,10 +81,11 @@ footer{font-size:12px;color:var(--muted);padding:10px 16px 30px;max-width:1500px
 </head>
 <body>
 <header class="wrap">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h1>Oncology Therapy Horizon Scanning <span class="tag" style="font-size:12px;vertical-align:middle">Pilot · feedback welcome</span></h1><button class="btn" id="theme" title="Switch between light and dark" style="white-space:nowrap"></button></div>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><h1>Oncology Therapy Horizon Scanning <span class="tag" style="font-size:12px;vertical-align:middle">Pilot · feedback welcome</span></h1><div style="display:flex;gap:6px"><button class="btn" id="about-btn" aria-expanded="false" aria-controls="about" style="white-space:nowrap">About</button><button class="btn" id="theme" title="Switch between light and dark" style="white-space:nowrap"></button></div></div>
   <div class="sub">Adult solid tumours · England · NHS England Cancer Drugs Fund list and NICE technology appraisals · <span id="asof"></span></div>
   <div class="banner"><b>Informal planning aid, not an NHS or trust system.</b> The National Cancer Drugs Fund List and NICE guidance are authoritative: check at source before acting. Facts only: this page does not say how a drug will be used locally.</div>
   <div id="stale" class="banner hide" style="background:#fde2e1;color:#7a1c1c;border-color:#f3a6a2"></div>
+  <div id="about" class="detail hide" style="border:1px solid var(--line);border-radius:6px;margin:8px 0"></div>
   <nav class="sites" id="sites"></nav>
 </header>
 <main class="wrap" id="main"></main>
@@ -324,6 +325,17 @@ document.getElementById('foot').innerHTML=`Sources: NHS England National Cancer 
   const lab=()=>{b.textContent=cur()==='dark'?'☀ Light mode':'☾ Dark mode';};
   b.onclick=()=>{const n=cur()==='dark'?'light':'dark';document.documentElement.dataset.theme=n;try{localStorage.setItem('ohs-theme',n)}catch(e){};lab();};
   lab();})();
+(function(){const b=document.getElementById('about-btn'),p=document.getElementById('about');
+  p.innerHTML=`<dl><dt>What it is</dt><dd>A pilot showing which cancer drugs in England are funded, under NICE appraisal, or due to change status. It brings together two public sources: the NHS England National Cancer Drugs Fund List and NICE technology appraisal pages. Adult solid tumours only.</dd>
+<dt>What it is not</dt><dd>Not an NHS or trust system, and it has no official status. It reports what the sources say and does not say how any drug will be used locally. Check the CDF list or NICE before acting.</dd>
+<dt>How current it is</dt><dd>A snapshot, not a live feed: CDF list v${META.cdf_version} (${fmtd(META.cdf_date)}) and NICE pages checked ${fmtd(META.nice_checked)}. It does not update automatically.</dd>
+<dt>Limits to be aware of</dt><dd><ul style="margin:2px 0;padding-left:18px">
+<li>CDF start dates marked ≈ are estimated from the first archived list showing that drug.</li>
+<li>A NICE comparator is shown only where the committee explicitly concludes one.</li>
+<li>Where no NICE appraisal is linked, the tumour site is assigned from the indication wording and may occasionally be wrong.</li>
+<li>Groupings by treatment setting are provisional.</li>
+<li>When a drug leaves the CDF list, the list does not always say whether it moved to routine commissioning. Where this is unclear, the drug's details say so.</li></ul></dd></dl>`;
+  b.onclick=()=>{const open=p.classList.toggle('hide')===false;b.setAttribute('aria-expanded',open);b.classList.toggle('on',open);};})();
 render();
 </script>
 </body>
